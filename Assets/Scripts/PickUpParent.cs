@@ -52,8 +52,7 @@ public class PickUpParent : MonoBehaviour
     {
         interactPopup.enabled = false;
         interactPopup.GetComponent<SpriteRenderer>().enabled = false;
-        //interactPopup.GetComponent<BoxCollider2D>().enabled = false;
-        //Destroy(this.gameObject);
+        
     }
 
     

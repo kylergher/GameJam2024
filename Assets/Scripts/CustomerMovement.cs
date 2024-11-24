@@ -34,6 +34,7 @@ public class CustomerMovement : MonoBehaviour
     public bool isTutorialLevel = false;
 
     private bool isFirstCustomerInPosition = false;
+    public PlayerController playerController;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -79,9 +80,13 @@ public class CustomerMovement : MonoBehaviour
         {
             if (customers[i] != null)
             {
-                if (waypoints[i] != null)
+                /*if (waypoints[i] != null)
                 {
                     //customers[i].transform.position = customerPosition[i];
+                    customers[i].transform.position = Vector2.MoveTowards(customers[i].transform.position, waypoints[i].position, moveSpeed * Time.deltaTime);
+                }*/
+                if (waypoints.Length > i && waypoints[i] != null)
+                {
                     customers[i].transform.position = Vector2.MoveTowards(customers[i].transform.position, waypoints[i].position, moveSpeed * Time.deltaTime);
                 }
             }
@@ -142,21 +147,26 @@ public class CustomerMovement : MonoBehaviour
 
     public void DeliverToCustomerSuccess()
     {
-        leavingCustomers.Add(customers[0]);
 
+        leavingCustomers.Add(customers[0]);
+        playerController.AddScore(100);
         customers.RemoveAt(0);
         CustomerComplete();
         UpdateCustomerIndices();
+        
     }
 
     private void CustomerComplete()
     {
+        
         isFirstCustomerInPosition = false;
+        
         currentDayCustomersFinished++;
-
+        
         if(currentDayCustomersFinished == dailyCustomer)
         {
             //It's the end of the day!!!!!!
+            playerController.winScreen.enabled = true;
         }
         
     }
@@ -179,6 +189,10 @@ public class CustomerMovement : MonoBehaviour
     public void CustomerAngryLeaves(int index)
     {
         Debug.Log(index + " is leaving");
+        Debug.Log("Score before subtracting: " + playerController.gameScore);
+        playerController.SubtractScore(50);
+
+        Debug.Log("Score after subtracting: " +playerController.gameScore);
         if (customers.Count > index)
         {
             leavingCustomers.Add(customers[index]);

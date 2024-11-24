@@ -41,6 +41,26 @@ public class DeliveryArea : MonoBehaviour
                 deliverPopup.SetActive(false);
             }
         }
+        if (isPlayerInRange == true)
+        {
+            IngredientType customerWants = customerManager.GetCurrentCustomerIngredientType();
+            if (customerWants == IngredientType.Sardine)
+            {
+                fishSprite.sprite = sardineSprite;
+            }
+            else if (customerWants == IngredientType.Mackerel)
+            {
+                fishSprite.sprite = mackSprite;
+            }
+            else if (customerWants == IngredientType.Bigboy)
+            {
+                fishSprite.sprite = BIGGUYSprite;
+            }
+
+
+            deliveryNumText.text = "x" + customerManager.GetCurrentCustomerIngredientAmount();
+        }
+
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
@@ -55,10 +75,10 @@ public class DeliveryArea : MonoBehaviour
             deliverPopup.SetActive(true);
         }
 
-        IngredientType customerWants = customerManager.GetCurrentCustomerIngredientType();
+        /* IngredientType customerWants = customerManager.GetCurrentCustomerIngredientType();
         if (customerWants == IngredientType.Sardine)
         {
-            fishSprite.sprite = sardineSprite;
+            fishSprite.sprite = sardineSprite;  
         }
         else if (customerWants == IngredientType.Mackerel)
         {
@@ -67,7 +87,7 @@ public class DeliveryArea : MonoBehaviour
         else if (customerWants == IngredientType.Bigboy)
         {
             fishSprite.sprite = BIGGUYSprite;
-        }
+        }*/
 
         deliveryNumText.text = "x" + customerManager.GetCurrentCustomerIngredientAmount();
 
@@ -82,7 +102,11 @@ public class DeliveryArea : MonoBehaviour
         }
         //interactPopup.enabled = false;
         isPlayerInRange = false;
-        deliverPopup.SetActive(false);   
+        if (deliverPopup != null)
+        {
+            deliverPopup.SetActive(false);
+        }
+          
     }
 
     protected void OnTriggerStay2D(Collider2D collision)

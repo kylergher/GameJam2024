@@ -1,7 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
+public enum customerType
+{
+    Penguin,
+    Seal,
+    PolarBear
+}
 
 public class Customer : MonoBehaviour
 {
@@ -25,6 +34,15 @@ public class Customer : MonoBehaviour
     private SpriteRenderer deliveryPopup;
 
     public float wrongDeliveryTimePenalty = 5f;
+    public PlayerController playerController;
+
+    public Sprite[] penguinSprites;
+    public Sprite[] sealSprites;
+    public Sprite[] polarBearSprites;
+
+    private SpriteRenderer currentCustomer;
+
+    private customerType customerType;
 
     private bool isLeaving = false;
     // Start is called before the first frame update
@@ -33,8 +51,25 @@ public class Customer : MonoBehaviour
         int wantAmount = Random.Range(1, 3);
         customerDemandsAmount = wantAmount;
 
+        currentCustomer = GetComponent<SpriteRenderer>();
+
+        customerType = (customerType)Random.Range(0, 3);
+
+        switch (customerType)
+        {
+            case customerType.Penguin:
+                currentCustomer.sprite = penguinSprites[0];
+                break;
+            case customerType.Seal:
+                currentCustomer.sprite = sealSprites[0];
+                break;
+            case customerType.PolarBear:
+                currentCustomer.sprite = polarBearSprites[0];
+                break;
+        }
+
         // Add this section to randomize the type of fish customer demands
-        int randomFishType = Random.Range(0, 2);
+        int randomFishType = Random.Range(0, 3);
         switch (randomFishType)
         {
             case 0:
@@ -52,6 +87,21 @@ public class Customer : MonoBehaviour
                 break;
         }
 
+        customerDemandsAmount = wantAmount;
+
+        switch (randomFishType)
+        {
+            case 0:
+                customerDemands = IngredientType.Sardine;
+                break;
+            case 1:
+                customerDemands = IngredientType.Mackerel;
+                break;
+            case 2:
+                customerDemands = IngredientType.Bigboy;
+                break;
+        }
+
         customerManager = FindFirstObjectByType<CustomerMovement>();
     }
 
@@ -63,21 +113,52 @@ public class Customer : MonoBehaviour
         {
             angerTimerFrontOfLine += Time.deltaTime;
 
-            if(angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine && isLeaving == false)
+            if(angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine / 3 && angerTimerFrontOfLine < 2 * timeToAngryLeaveFrontOfLine /3)
+            {
+                UpdateSprite(1);
+            }
+            else if(angerTimerFrontOfLine >= 2 * timeToAngryLeaveFrontOfLine / 3 && angerTimerFrontOfLine < timeToAngryLeaveFrontOfLine)
+            {
+                UpdateSprite(2);
+            }
+            else if(angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine && isLeaving == false)
             {
                 GetAngryAndLeave();
             }
-
 
         }
         else
         {
             angerTimerNotFrontOfLine += Time.deltaTime;
 
-            if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine && isLeaving == false)
+            if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine / 3 && angerTimerNotFrontOfLine < 2 * timeToAngryLeaveNotFrontOfLine / 3)
+            {
+                UpdateSprite(1);
+            }
+            else if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine / 3 && angerTimerNotFrontOfLine < timeToAngryLeaveNotFrontOfLine)
+            {
+                UpdateSprite(2);
+            }
+            else if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine && isLeaving == false)
             {
                 GetAngryAndLeave();
             }
+        }
+    }
+
+    private void UpdateSprite(int emotionIndex)
+    {
+        switch(customerType)
+        {
+            case customerType.Penguin:
+                currentCustomer.sprite = penguinSprites[emotionIndex];
+                break;
+            case customerType.Seal:
+                currentCustomer.sprite = sealSprites[emotionIndex];
+                break;
+            case customerType.PolarBear:
+                currentCustomer.sprite = polarBearSprites[emotionIndex];
+                break;
         }
     }
 
@@ -89,6 +170,7 @@ public class Customer : MonoBehaviour
     private void GetAngryAndLeave()
     {
         isLeaving = true;
+        
         customerManager.CustomerAngryLeaves(currentCustomerIndex);
     }
 
@@ -117,10 +199,13 @@ public class Customer : MonoBehaviour
     private void LeaveHappy()
     {
         customerManager.DeliverToCustomerSuccess();
+    
     }
 
     public int GetCustomerDemandsAmount()
     {
+       
         return customerDemandsAmount - numIngredientsDelivered;
+       
     }
 }

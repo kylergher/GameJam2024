@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,13 +23,22 @@ public class PlayerController : MonoBehaviour
 
     private List<Ingredient> allIngredients = new List<Ingredient>(); //,,,,,,
 
-    private CustomerMovement customerManager; //this is giving us access to the CustomerMovement script
+    public CustomerMovement customerManager; //this is giving us access to the CustomerMovement script
     public Customer patron;
     public Sprite sardinePic;
     public Sprite mackPic;
     public Sprite bigPic;
 
-    [SerializeField] private int gameScore = 0; //this is the players score
+    public int gameScore ; //this is the players score
+    public TextMeshProUGUI totalScore;
+
+    public Image loseScreen;
+    public Image winScreen;
+
+    
+
+    public MenuUI pauseMenu;
+    
 
     void Start()
     {
@@ -38,20 +51,29 @@ public class PlayerController : MonoBehaviour
         {
             allIngredients.Add(ingredient); //MAN IDK
         }
+
+        gameScore = 100;
+
+        loseScreen.enabled = false;
+        winScreen.enabled = false;
         
     }
 
     void Update()
     {
+        
         if (hasFishAlready == true) //bool checking if player has fish, if the answer is yes:
         {
             holdingFish.enabled = true; //shows holding fish sprite (because if you have a fish, that means you can hold it. obviously)
             canPickUpFish = false; //sets the canPickUpFish bool to false because you can only ever hold one fish at a time
         }
 
+        //totalScore.text = "SCORE: " + gameScore.ToString();
+        //displayText.text = "Counter: " + counter.ToString();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit(); //only appliciable when the game has been exported but allows for game to be closed without alt+f4
+            
         }
 
         if (hasSlidePowerUp == false) //this is the basic check to see what movement system the game is going to use. in this case, if this check is met then you slide
@@ -110,6 +132,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (gameScore <= 0)
+        {
+            loseScreen.enabled = true;
+        }
     }
 
     public void PickUpSlidePowerUp() //callable function for when you pick up the ice skates
@@ -187,11 +213,33 @@ public class PlayerController : MonoBehaviour
         heldIngredient = IngredientType.None;
         holdingFish.enabled = false;
         hasFishAlready = false;
-        //change held sprite to nothing. //TODO: THIS IS FOR YOU KYLER
+       
     }
 
     public void ThrowAwayFish()
     {
         hasFishAlready = false;
     }
+
+    public void AddScore(int score)
+    {
+        gameScore += score;
+        UpdateScoreUI();
+    }
+
+    public void SubtractScore(int score)
+    {
+        gameScore -= score;
+        UpdateScoreUI();
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (totalScore != null)
+        {
+            totalScore.text = "SCORE: " +gameScore.ToString();
+        }
+    }
+
+
 }

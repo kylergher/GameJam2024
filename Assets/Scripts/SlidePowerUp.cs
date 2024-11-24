@@ -8,5 +8,7 @@ public class SlidePowerUp : PickUpParent
     {
         player.PickUpSlidePowerUp();
         base.PickUpPowerUp();
+
+        Destroy(this.gameObject);
     }
 }

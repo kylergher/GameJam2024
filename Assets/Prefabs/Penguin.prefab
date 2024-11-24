@@ -144,3 +144,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCustomerIndex: 0
+  timeToAngryLeaveFrontOfLine: 50
+  timeToAngryLeaveNotFrontOfLine: 75
+  customerDemands: 0
+  customerDemandsAmount: 1
+  customerDemandSprite: {fileID: 0}
+  mackSprite: {fileID: 0}
+  sardineSprite: {fileID: 0}
+  BIGGUYSprite: {fileID: 0}
+  wrongDeliveryTimePenalty: 5
+  playerController: {fileID: 0}
+  penguinSprites:
+  - {fileID: 21300000, guid: 0186ac03f9aa05d40849eef1ce4f2e41, type: 3}
+  - {fileID: 21300000, guid: 485a019e0736d7d4e88f0533c7768acf, type: 3}
+  - {fileID: 21300000, guid: 45562f3bff121e24ca6cf7e982a2ff6c, type: 3}
+  sealSprites:
+  - {fileID: 21300000, guid: 741e50c61aaa63a498a6fa67ee6a2e63, type: 3}
+  - {fileID: 21300000, guid: ab867866533c27a46a30ac6d2801a74c, type: 3}
+  - {fileID: 21300000, guid: 834b1f1c0ad67da47a89c098478b66ab, type: 3}
+  polarBearSprites:
+  - {fileID: 21300000, guid: a12efbaa438aad547a2a17dc71d8f5bc, type: 3}
+  - {fileID: 21300000, guid: 1a6266accf0506d4a9f29e99aa02f125, type: 3}
+  - {fileID: 21300000, guid: b8c16cc7c6c01ed4eab95c744f131428, type: 3}
