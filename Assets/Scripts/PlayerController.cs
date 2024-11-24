@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
     public int gameScore ; //this is the players score
     public TextMeshProUGUI totalScore;
 
-    public Image loseScreen;
-    public Image winScreen;
+    public Canvas loseScreen;
+    public Canvas winScreen;
 
     
 
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (gameScore <= 0)
+        if (gameScore == 0 || gameScore <= 100 - 150)
         {
             loseScreen.enabled = true;
         }

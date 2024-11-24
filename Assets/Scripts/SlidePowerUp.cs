@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SlidePowerUp : PickUpParent
 {
+    public GameObject sign;
     protected override void PickUpPowerUp()
     {
         player.PickUpSlidePowerUp();
         base.PickUpPowerUp();
 
-        Destroy(this.gameObject);
+        sign.SetActive(true);
+        Destroy(gameObject);
     }
 }
