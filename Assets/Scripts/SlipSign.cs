@@ -5,40 +5,21 @@ using UnityEngine;
 
 public class SlipSign : MonoBehaviour
 {
-
-    public GameObject iceSkates;
     public GameObject sign;
+    private SkatesManager SkatesManager;
+    private bool playerInRange = false; //checks if the player is within range
 
-    public float minSpawnTime = 10f;
-    public float maxSpawnTime = 27f;
 
-    private GameObject skatesInstance;
-    private bool playerInRange = false;
-
-    private PickUpParent pickUpItemScript;
-    // Start is called before the first frame update
     void Start()
     {
-        iceSkates.SetActive(false);
-        sign.SetActive(false);
-        StartCoroutine(SpawnCollectibleAfterRandomTime());
-    }
-
-    private IEnumerator SpawnCollectibleAfterRandomTime()
-    {
-        float spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-        yield return new WaitForSeconds(spawnTime);
-
-        iceSkates.SetActive(true);
-        Debug.Log("Skates Spawned");
+        SkatesManager = FindObjectOfType<SkatesManager>();
     }
 
     void Update()
     {
-        if(playerInRange && skatesInstance != null && Input.GetKeyDown(KeyCode.E))
+        if(playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("We want to collect!!");
-            CollectItem();
+            CollectSkates();
         }
     }
 
@@ -60,15 +41,13 @@ public class SlipSign : MonoBehaviour
         }
     }
 
-    private void CollectItem()
+    private void CollectSkates()
     {
-        Destroy(skatesInstance);
-        Destroy(iceSkates);
-        Debug.Log("Skates Destroyed");
-
+        gameObject.SetActive(false);
         sign.SetActive(true);
-        Debug.Log("Block Area Instantiated!");
-
-        playerInRange = false;
+        Debug.Log("Man I jus twant this to work");
+        SkatesManager.StartHideSignCoroutine();
     }
+
+    
 }

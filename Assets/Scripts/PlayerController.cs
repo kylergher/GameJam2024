@@ -80,12 +80,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                Debug.Log("Forwards!");
+                //Debug.Log("Forwards!");
                 rb.AddForce(new Vector2(0f, 1f) * forceMultiplier * Time.deltaTime);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                Debug.Log("Backwards!");
+                //Debug.Log("Backwards!");
                 rb.AddForce(new Vector2(0f, -1f) * forceMultiplier * Time.deltaTime);
             }
 
@@ -94,12 +94,12 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.A))
             {
-                Debug.Log("To the left!");
+                //Debug.Log("To the left!");
                 rb.AddForce(new Vector2(-1f, 0f) * forceMultiplier * Time.deltaTime);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                Debug.Log("To the right!");
+                //Debug.Log("To the right!");
                 rb.AddForce(new Vector2(1f, 0f) * forceMultiplier * Time.deltaTime);
             }
         }
@@ -108,12 +108,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                Debug.Log("Forwards but insano style!");
+                //Debug.Log("Forwards but insano style!");
                 this.transform.position += new Vector3(0f, slidePowerUpMovementSpeed, 0f) * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                Debug.Log("Backwards but crazy style!");
+                //Debug.Log("Backwards but crazy style!");
                 this.transform.position += new Vector3(0f, -slidePowerUpMovementSpeed, 0f) * Time.deltaTime;
             }
 
@@ -122,17 +122,21 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.A))
             {
-                Debug.Log("Left but with style!");
+                //Debug.Log("Left but with style!");
                 this.transform.position += new Vector3(-slidePowerUpMovementSpeed, 0f, 0f) * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                Debug.Log("Right but swag as hell!");
+                //Debug.Log("Right but swag as hell!");
                 this.transform.position += new Vector3(slidePowerUpMovementSpeed, 0f, 0f) * Time.deltaTime;
             }
         }
 
         if (gameScore == 0 || gameScore <= 100 - 150)
+        {
+            loseScreen.enabled = true;
+        }
+        if (customerManager.angyBois >= 3)
         {
             loseScreen.enabled = true;
         }

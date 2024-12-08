@@ -36,6 +36,8 @@ public class CustomerMovement : MonoBehaviour
     private bool isFirstCustomerInPosition = false;
     public PlayerController playerController;
 
+    public int angyBois; 
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -188,6 +190,7 @@ public class CustomerMovement : MonoBehaviour
 
     public void CustomerAngryLeaves(int index)
     {
+        angyBois++;
         Debug.Log(index + " is leaving");
         Debug.Log("Score before subtracting: " + playerController.gameScore);
         playerController.SubtractScore(50);
