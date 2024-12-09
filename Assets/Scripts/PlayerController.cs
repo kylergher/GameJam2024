@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float forceMultiplier = 100f; //the force applied to player when on ice
     Rigidbody2D rb; //allows for the slippery material to be used
 
-    private bool hasSlidePowerUp = false; //at the beginning, this tells the game that the player is not on ice skates
+    public bool hasSlidePowerUp = false; //at the beginning, this tells the game that the player is not on ice skates
     public float slidePowerUpTime = 5f; //this is the length of time in which you wear the skates once you pick it up
     public float slidePowerUpMovementSpeed = 8f; //this is the increased speed in which you will go when you wear the skates
 
@@ -187,8 +187,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitAndDisableSlidePowerUp()
+    public IEnumerator WaitAndDisableSlidePowerUp()
     {
+        Debug.Log("Should be disabling any second now");
         yield return new WaitForSeconds(slidePowerUpTime);
         hasSlidePowerUp = false;
     }

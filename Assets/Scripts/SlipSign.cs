@@ -8,11 +8,12 @@ public class SlipSign : MonoBehaviour
     public GameObject sign;
     private SkatesManager SkatesManager;
     private bool playerInRange = false; //checks if the player is within range
-
+    private PlayerController playerController;
 
     void Start()
     {
-        SkatesManager = FindObjectOfType<SkatesManager>();
+        SkatesManager = FindAnyObjectByType<SkatesManager>();
+        playerController = FindAnyObjectByType<PlayerController>();
     }
 
     void Update()
@@ -41,12 +42,15 @@ public class SlipSign : MonoBehaviour
         }
     }
 
-    private void CollectSkates()
+    public void CollectSkates()
     {
         gameObject.SetActive(false);
         sign.SetActive(true);
         Debug.Log("Man I jus twant this to work");
         SkatesManager.StartHideSignCoroutine();
+
+        playerController.hasSlidePowerUp = true;
+        playerController.StartCoroutine(playerController.WaitAndDisableSlidePowerUp());
     }
 
     

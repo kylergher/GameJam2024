@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum customerType
 {
@@ -16,10 +17,14 @@ public class Customer : MonoBehaviour
     public int currentCustomerIndex = 0;
     private CustomerMovement customerManager;
 
-    private float angerTimerFrontOfLine = 0f;
+    public Slider customerAngyLevel;
+    public float totalTime = 30f;
+    private float remainingTime;
+
+    public float angerTimerFrontOfLine = 0f;
     public float timeToAngryLeaveFrontOfLine = 50f;
 
-    private float angerTimerNotFrontOfLine = 0f;
+    public float angerTimerNotFrontOfLine = 0f;
     public float timeToAngryLeaveNotFrontOfLine = 75f;
 
     public IngredientType customerDemands;
@@ -44,7 +49,7 @@ public class Customer : MonoBehaviour
     private customerType customerType;
 
     private bool isLeaving = false;
-    // Start is called before the first frame update
+
     void Start()
     {
         int wantAmount = Random.Range(1, 3);
@@ -102,17 +107,26 @@ public class Customer : MonoBehaviour
         }
 
         customerManager = FindFirstObjectByType<CustomerMovement>();
+
+        remainingTime = (currentCustomerIndex == 0) ? timeToAngryLeaveFrontOfLine : timeToAngryLeaveNotFrontOfLine;
+        customerAngyLevel.maxValue = remainingTime;
+        customerAngyLevel.value = remainingTime;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if(currentCustomerIndex == 0)
+        
+
+        if (currentCustomerIndex == 0)
         {
             angerTimerFrontOfLine += Time.deltaTime;
+            remainingTime -= Time.deltaTime;
+            customerAngyLevel.value = remainingTime;
+            
 
-            if(angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine / 3 && angerTimerFrontOfLine < 2 * timeToAngryLeaveFrontOfLine /3)
+            if (angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine / 3 && angerTimerFrontOfLine < 2 * timeToAngryLeaveFrontOfLine /3)
             {
                 UpdateSprite(1);
             }
@@ -129,6 +143,8 @@ public class Customer : MonoBehaviour
         else
         {
             angerTimerNotFrontOfLine += Time.deltaTime;
+            remainingTime += Time.deltaTime;
+            customerAngyLevel.value = remainingTime;
 
             if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine / 3 && angerTimerNotFrontOfLine < 2 * timeToAngryLeaveNotFrontOfLine / 3)
             {
@@ -186,7 +202,8 @@ public class Customer : MonoBehaviour
             else
             {
                 angerTimerFrontOfLine = 0f;
-                //This is where we can randomize the next ingredient wanted
+                remainingTime = timeToAngryLeaveFrontOfLine;
+                customerAngyLevel.value = remainingTime;
             }
         }
         else
