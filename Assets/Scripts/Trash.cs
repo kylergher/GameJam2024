@@ -9,6 +9,7 @@ public class Trash : MonoBehaviour
     protected bool isPlayerInRange = false;
 
     // Start is called before the first frame update
+    [System.Obsolete]
     void Start()
     {
         interactPopup = GameObject.FindGameObjectWithTag("InteractPopup").GetComponent<SpriteRenderer>();

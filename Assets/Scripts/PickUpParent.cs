@@ -12,6 +12,7 @@ public class PickUpParent : MonoBehaviour
     protected SpriteRenderer trashCan;
 
     // Start is called before the first frame update
+    [System.Obsolete]
     protected void Start()
     {
         interactPopup = GameObject.FindGameObjectWithTag("InteractPopup").GetComponent<SpriteRenderer>();

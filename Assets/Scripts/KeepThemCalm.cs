@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +13,27 @@ public class KeepThemCalm : MonoBehaviour
     public void OnEnable()
     {
         Debug.Log("Proof this is working");
-        patronScript = FindAnyObjectByType<Customer>();
+        
     }
 
+    [System.Obsolete]
     void Update()
     {
         if (closeEnough == true && Input.GetKeyDown(KeyCode.E))
         {
+            patronScript = FindObjectsByType<Customer>();
             Debug.Log("Chief! ITs working!!");
-            patronScript.angerTimerFrontOfLine = 0f;
+            patronScript.remainingTime = patronScript.customerAngyLevel.maxValue;
             patronScript.angerTimerNotFrontOfLine = 0f;
+            //patronScript.angerTimerFrontOfLine = 0f;
+            //patronScript.angerTimerNotFrontOfLine = 0f;
             resetButton.SetActive(false);
         }
+    }
+
+    private T FindObjectsByType<T>()
+    {
+        throw new NotImplementedException();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

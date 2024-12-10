@@ -9,7 +9,9 @@ public enum customerType
 {
     Penguin,
     Seal,
-    PolarBear
+    PolarBear,
+    PenguinNoHat,
+    PinkSeal
 }
 
 public class Customer : MonoBehaviour
@@ -19,7 +21,7 @@ public class Customer : MonoBehaviour
 
     public Slider customerAngyLevel;
     public float totalTime = 30f;
-    private float remainingTime;
+    public float remainingTime;
 
     public float angerTimerFrontOfLine = 0f;
     public float timeToAngryLeaveFrontOfLine = 50f;
@@ -43,6 +45,8 @@ public class Customer : MonoBehaviour
     public Sprite[] penguinSprites;
     public Sprite[] sealSprites;
     public Sprite[] polarBearSprites;
+    public Sprite[] PenguinNoHatSprites;
+    public Sprite[] PinkSealSprites;
 
     private SpriteRenderer currentCustomer;
 
@@ -52,12 +56,13 @@ public class Customer : MonoBehaviour
 
     void Start()
     {
+        
         int wantAmount = Random.Range(1, 3);
         customerDemandsAmount = wantAmount;
 
         currentCustomer = GetComponent<SpriteRenderer>();
 
-        customerType = (customerType)Random.Range(0, 3);
+        customerType = (customerType)Random.Range(0, 5);
 
         switch (customerType)
         {
@@ -69,6 +74,12 @@ public class Customer : MonoBehaviour
                 break;
             case customerType.PolarBear:
                 currentCustomer.sprite = polarBearSprites[0];
+                break;
+            case customerType.PenguinNoHat:
+                currentCustomer.sprite = PenguinNoHatSprites[0];
+                break;
+            case customerType.PinkSeal:
+                currentCustomer.sprite = PinkSealSprites[0];
                 break;
         }
 
@@ -124,7 +135,9 @@ public class Customer : MonoBehaviour
             angerTimerFrontOfLine += Time.deltaTime;
             remainingTime -= Time.deltaTime;
             customerAngyLevel.value = remainingTime;
-            
+            //Debug.Log("Slider Value: " + customerAngyLevel.value);
+            //Debug.Log("Max Value: " + customerAngyLevel.maxValue);
+            //Debug.Log("Remaining Time Left: " + remainingTime);
 
             if (angerTimerFrontOfLine >= timeToAngryLeaveFrontOfLine / 3 && angerTimerFrontOfLine < 2 * timeToAngryLeaveFrontOfLine /3)
             {
@@ -143,7 +156,7 @@ public class Customer : MonoBehaviour
         else
         {
             angerTimerNotFrontOfLine += Time.deltaTime;
-            remainingTime += Time.deltaTime;
+            remainingTime -= Time.deltaTime;
             customerAngyLevel.value = remainingTime;
 
             if (angerTimerNotFrontOfLine >= timeToAngryLeaveNotFrontOfLine / 3 && angerTimerNotFrontOfLine < 2 * timeToAngryLeaveNotFrontOfLine / 3)
@@ -174,12 +187,24 @@ public class Customer : MonoBehaviour
             case customerType.PolarBear:
                 currentCustomer.sprite = polarBearSprites[emotionIndex];
                 break;
+            case customerType.PenguinNoHat:
+                currentCustomer.sprite = PenguinNoHatSprites[emotionIndex];
+                break;
+            case customerType.PinkSeal:
+                currentCustomer.sprite = PinkSealSprites[emotionIndex];
+                break;
         }
     }
 
     public void SetCustomerIndex(int index)
     {
         currentCustomerIndex = index;
+        if (index == 0 && customerAngyLevel.maxValue != timeToAngryLeaveFrontOfLine)
+        {
+            remainingTime = (currentCustomerIndex == 0) ? timeToAngryLeaveFrontOfLine : timeToAngryLeaveNotFrontOfLine;
+            customerAngyLevel.maxValue = remainingTime;
+            customerAngyLevel.value = remainingTime;
+        }
     }
 
     private void GetAngryAndLeave()

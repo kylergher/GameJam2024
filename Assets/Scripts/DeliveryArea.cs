@@ -19,6 +19,7 @@ public class DeliveryArea : MonoBehaviour
     protected bool isPlayerInRange = false;
 
     // Start is called before the first frame update
+    [System.Obsolete]
     void Start()
     {
         customerManager = FindFirstObjectByType<CustomerMovement>();

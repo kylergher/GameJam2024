@@ -13,6 +13,7 @@ public class CustomerMovement : MonoBehaviour
     public List<Vector2> customerPosition = new List<Vector2>();
 
     public int dailyCustomer = 3;
+
     private int currentDayCustomerCount = 0;
     private int currentDayCustomersFinished = 0;
 
